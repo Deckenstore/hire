@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worker Profile</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="view.js" defer></script>
+   <style>
+    /* Base & Theme Variables */
+    :root {
+      --primary-color: #5d56f9;
+      --secondary-color: #3b33d5;
+      --light-bg: #f5f6fa;
+      --dark-text: #2c3e50;
+      --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: var(--light-bg);
+      color: var(--dark-text);
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* Navbar */
+    .navbar {
+      background-color: var(--dark-text);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content:space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .navbar .logo { font-weight: 700; font-size: 1.5rem; color: white; }
+    .nav-links { list-style: none; display: flex; gap: 1rem; }
+    .nav-links li a.active { text-decoration: underline; }
+    #logout-btn {
+      background: #ff4b5c; color: white; border: none;
+      padding: 10px 18px; border-radius: 5px; cursor: pointer;
+      font-size: 14px;
+    }
+    #logout-btn:hover { background: #e63b4e; }
+
+    /* Dashboard Section */
+    #dashboard { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+    #dashboard h2 { margin-bottom: 1rem; color: var(--primary-color); }
+    #searchInput {
+      width: 100%; padding: 0.5rem; margin-bottom: 2rem;
+      border: 1px solid #ccc; border-radius: 5px;
+    }
+
+    /* Worker Cards Grid */
+    #workersList {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    /* Individual Worker Card */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+    .card h3 { color: var(--primary-color); font-size: 1.6rem; margin-bottom: 0.8rem; }
+    .card p { font-size: 0.95rem; margin: 0.4rem 0; color: #555; }
+
+    /* Card Buttons */
+    .card-actions { display: flex; gap: 0.5rem; margin-top: 1rem; }
+    .card-actions .btn {
+      flex: 1;
+      padding: 0.55rem;
+      border-radius: 50px;
+      font-weight: 600;
+      background-color: var(--primary-color);
+      color: white;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+    .card-actions .btn:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+
+    /* Category Borders */
+    .card[data-category="Electrician"] { border-left: 5px solid #f39c12; }
+    .card[data-category="Plumber"] { border-left: 5px solid #3498db; }
+    .card[data-category="Painter"] { border-left: 5px solid #e74c3c; }
+    .card[data-category="Carpenter"] { border-left: 5px solid #27ae60; }
+
+    /* Register Button */
+    .register-btn {
+      display: block; width: 200px; margin: 2rem auto;
+      text-align: center; padding: 0.5rem;
+      background-color: var(--primary-color); color: #fff;
+      border-radius: 5px;
+    }
+    .register-btn:hover { background-color: var(--secondary-color); }
+
+    /* Footer */
+    footer { text-align: center; padding: 1rem; background-color: #eee; margin-top: 2rem; }
+
+    /* Responsive */
+    @media screen and (max-width: 768px) {
+      #workersList { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+      .card h3 { font-size: 1.3rem; }
+      .card-actions .btn { padding: 0.5rem; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">GapHire</div>
+    <ul class="nav-links">
+      <li><a href="dashboard.html" class="active">Home</a></li>
+      <li><a href="https://gapweb.site">Gap Web</a></li>
+    </ul>
+  
+      <div>
+        <button id="logout-btn" style="display:none;">Logout</button>
+      </div>
+      <button class="nav-toggle">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- Worker Profile Section -->
+  <section id="profile">
+    <div class="container">
+      <h2>Worker Profile</h2>
+      <div id="workerDetails" class="card">
+        <p>Loading worker details...</p>
+      </div>
+      <button id="hireBtn" class="btn">Hire Now</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 GapHire. All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>

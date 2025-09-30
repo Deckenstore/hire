@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Realtime Database Example</title>
+</head>
+<body>
+  <h1>Firebase Realtime Database Demo</h1>
+
+  <form id="dataForm">
+    <input type="text" id="name" placeholder="Enter Name" required>
+    <input type="text" id="message" placeholder="Enter Message" required>
+    <button type="submit">Add Data</button>
+  </form>
+
+  <h2>Live Data:</h2>
+  <ul id="dataList"></ul>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Firebase import
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    // 🔹 Yaha apna Firebase config daalo
+    const firebaseConfig = {
+  apiKey: "AIzaSyAAum8UicFCCF5bgwMQUzqmK3lR2b0oFGk",
+  authDomain: "dg-service-5a315.firebaseapp.com",
+  projectId: "dg-service-5a315",
+  storageBucket: "dg-service-5a315.firebasestorage.app",
+  messagingSenderId: "482066361849",
+  appId: "1:482066361849:web:bfe4a061475324aa01e128",
+  measurementId: "G-WY1CEXEREF"
+};
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Form submit
+    document.getElementById("dataForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const message = document.getElementById("message").value;
+
+      // Database ref
+      const dataRef = ref(db, "messages");
+      push(dataRef, {
+        name: name,
+        message: message,
+        time: new Date().toLocaleString()
+      });
+
+      // Clear inputs
+      document.getElementById("name").value = "";
+      document.getElementById("message").value = "";
+    });
+
+    // Realtime Data Display
+    const dataList = document.getElementById("dataList");
+    const messagesRef = ref(db, "messages");
+
+    onValue(messagesRef, (snapshot) => {
+      dataList.innerHTML = "";
+      snapshot.forEach((childSnapshot) => {
+        const data = childSnapshot.val();
+        const li = document.createElement("li");
+        li.textContent = `${data.name}: ${data.message} (${data.time})`;
+        dataList.appendChild(li);
+      });
+    });
+  </script>
+</body>
+</html>
